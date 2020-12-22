@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext ,useEffect, useState } from "react";
 import { Image, StyleSheet, Dimensions } from "react-native";
 import {
   Content,
@@ -10,11 +10,15 @@ import {
   View,
   Badge,
   Container,
+  Input,
+  Button,
+  Icon,
 } from "native-base";
 import { Rating } from "react-native-ratings";
 import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
-import { format } from "date-fns";
+import {ReseñasContext} from "../context/reseñaContext";
+
 
 const { apiUrl, apiKey, apiImageUrl, apiImageSize } = getEnvVars();
 
@@ -23,9 +27,16 @@ const { width, height } = Dimensions.get("window");
 const MovieInfoScreen = ({ route, navigation }) => {
   // Obtener el id de la película
   const { id } = route.params;
+
+  const reseñaContext = useContext(ReseñasContext);
+  const { addNewReseña, refreshReseñas} = reseñaContext;
+
+  const [nombreDePelicula, setNombreDePelicula] = useState("");
+  const [reseña, setReseña] = useState("");
+
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(false);
-
+  const [errorReseña, setErrorReseña] = useState(true);
   // Obtener la información de la película
   const getMovieInfo = async () => {
     try {
@@ -37,6 +48,11 @@ const MovieInfoScreen = ({ route, navigation }) => {
     } catch (error) {
       setError(true);
     }
+  };
+
+  const handlerNewReseña = () => {
+    // Validar que la nota tiene valor
+    addNewReseña(nombreDePelicula,reseña);
   };
 
   // Efecto secundario que ejecuta la consulta a la API
@@ -61,7 +77,8 @@ const MovieInfoScreen = ({ route, navigation }) => {
         />
 
         <Card cardBody style={styles.card}>
-          <H1 style={styles.title}>{movie.title}</H1>
+          
+          <Input value={nombreDePelicula} style={styles.title} onChangeText={setNombreDePelicula} value={movie.title}></Input>
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 1 }}>
               <Text style={styles.movieDetailsValues}>
@@ -77,13 +94,11 @@ const MovieInfoScreen = ({ route, navigation }) => {
               />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.movieDetailsValues}>{movie.runtime}</Text>
+              
               <Text style={styles.movieDetails}>Duración</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.movieDetailsValues}>
-                {format(new Date(movie.release_date), "yyyy")}
-              </Text>
+              
               <Text style={styles.movieDetails}>Lanzamiento</Text>
             </View>
           </View>
@@ -97,6 +112,12 @@ const MovieInfoScreen = ({ route, navigation }) => {
           </View>
           <H2 style={styles.h2}>Trama</H2>
           <Text>{movie.overview ? movie.overview : "No disponible"}</Text>
+          <Text>{"\n"}</Text>
+          <Input value={reseña} onChangeText={setReseña} placeholder="Escriba su reseña" ></Input>
+          
+          <Button style={styles.guardar} onPress={handlerNewReseña} >
+          <Icon name="save" />
+          </Button>
         </Card>
       </Content>
     </Container>
@@ -150,6 +171,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  guardar:
+  {
+    flex: 1,
+    backgroundColor: "#7ae582",
+    marginLeft: 10,
+    height: 40,
+  }
 });
 
 export default MovieInfoScreen;

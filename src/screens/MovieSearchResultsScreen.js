@@ -13,7 +13,7 @@ import {
 import backend from "../api/backend";
 import getEnvVars from "../../enviroment";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { format } from "date-fns";
+
 
 const { apiUrl, apiKey, apiImageUrl, apiImageSize } = getEnvVars();
 
@@ -89,9 +89,7 @@ const MovieSearchResults = ({ route, navigation }) => {
                     <Body style={{ flex: 1, flexDirection: "row" }}>
                       <View>
                         <H3>{item.title}</H3>
-                        <Text>
-                          {format(new Date(item.release_date), "yyyy")}
-                        </Text>
+
                       </View>
                       <View style={styles.voteAverage}>
                         <Icon name="star" style={styles.starIcon} />
