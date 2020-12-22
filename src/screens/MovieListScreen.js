@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   FlatList,
+  Alert,
 } from "react-native";
 import {
   Input,
@@ -152,6 +153,13 @@ const MovieListScreen = ({ navigation }) => {
           );
         }}
       />
+      <Header style= {styles.downHeader}>
+      <Icon name="mail"  style= {styles.iconmail}/>
+      <Text style={styles.textMargin}>NET504@yahoo.com</Text>
+      <Icon name="call" style= {styles.iconmail}/>
+      <Text style={styles.textMargin}>+504 96630048</Text>
+        <Button rounded info onPress={() => Alert.alert('REPOSICION FERNANDO MARTINEZ , APP MOVIEER , IMPLEMENTACION DE BOTTON INFORMACION')}><Text> Info </Text></Button>
+      </Header>
     </Container>
   );
 };
@@ -204,6 +212,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginRight: 5,
     color: "#d4af37",
+  },
+
+  iconmail: {
+    alignItems: "flex-start",
+    marginRight: 10,
+    marginTop: 5,
+    marginLeft:10,
+  },
+
+  textMargin : {
+    marginRight : 20 ,
+    marginTop:10,
+    fontWeight: "bold",
+  },
+ 
+  cardSize: {
+    backgroundColor:  "black",
   },
 });
 

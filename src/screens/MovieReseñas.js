@@ -34,7 +34,7 @@ const ReseñaScreen = ({navigation})=>
               <Text>{reseña.pelicula}</Text>
             </ListItem>
                   <Body>
-                    <Text numberOfLines={2}>{reseña.reseña}</Text>
+                    <Text numberOfLines={2}>{reseña.review}</Text>
                   </Body>
                 </ListItem>
               ))

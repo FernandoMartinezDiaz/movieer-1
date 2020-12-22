@@ -10,14 +10,14 @@ const db = SQLite.openDatabase("movieerReseña.db");
 const getReseñas = (setReseñasFunc) => {
   db.transaction((tx) => {
     tx.executeSql(
-      "select * from reseñas",
+      "select * from review",
       [],
       (_, { rows: { _array } }) => {
         setReseñasFunc(_array);
         //console.log(_array);
       },
       (_t, error) => {
-        console.log("Error al momento de obtener las reseña");
+        console.log("Error al momento de obtener las reseñas");
         console.log(error);
       },
       (_t, _success) => {
@@ -31,7 +31,7 @@ const getReseñas = (setReseñasFunc) => {
 const getReseñaById = (id, setReseñaFunc) => {
   db.transaction((tx) => {
     tx.executeSql(
-      "select * from reseñas where id = ?",
+      "select * from review where id = ?",
       [id],
       (_, { rows: { _array } }) => {
         setReseñaFunc(_array);
@@ -51,7 +51,7 @@ const getReseñaById = (id, setReseñaFunc) => {
 const insertReseñas = async (pelicula, reseña, successFunc) => {
   db.transaction(
     (tx) => {
-      tx.executeSql("insert into reseñas ( pelicula ,reseña, status) values (?,?,?)", [pelicula,
+      tx.executeSql("insert into review ( pelicula ,review, status) values (?,?,?)", [pelicula,
         reseña,
         "NUEVA",
       ]);
@@ -71,10 +71,10 @@ const dropDatabaseTableAsync = async () => {
   return new Promise((resolve, reject) => {
     db.transaction(
       (tx) => {
-        tx.executeSql("drop table reseñas");
+        tx.executeSql("drop table review");
       },
       (_t, error) => {
-        console.log("Error al eliminar la tabla de reseñas");
+        console.log("Error al eliminar la tabla de reseña");
         reject(error);
       },
       (_t, result) => {
@@ -90,7 +90,7 @@ const setupDatabaseTableAsync = async () => {
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "create table if not exists reseñas (id integer primary key autoincrement, pelicula text not null, reseña text not null, status text not null);"
+          "create table if not exists review (id integer primary key autoincrement, pelicula text not null, review text not null, status text not null);"
         );
       },
       (_t, error) => {
@@ -111,7 +111,7 @@ const setupReseñasAsync = async () => {
   return new Promise((resolve, reject) => {
     db.transaction(
       (tx) => {
-        tx.executeSql("insert into reseñas (pelicula, reseña, status) values (?,?,?)", [
+        tx.executeSql("insert into review (pelicula, review, status) values (?,?,?)", [
           "Movieer",
           "Bienvenido a FastReseñas",
           "NUEVA",

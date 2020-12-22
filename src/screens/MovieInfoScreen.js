@@ -78,7 +78,7 @@ const MovieInfoScreen = ({ route, navigation }) => {
 
         <Card cardBody style={styles.card}>
           
-          <Input value={nombreDePelicula} style={styles.title} onChangeText={setNombreDePelicula} value={movie.title}></Input>
+          <H1  style={styles.title} >{movie.title}</H1>
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 1 }}>
               <Text style={styles.movieDetailsValues}>
@@ -112,6 +112,7 @@ const MovieInfoScreen = ({ route, navigation }) => {
           </View>
           <H2 style={styles.h2}>Trama</H2>
           <Text>{movie.overview ? movie.overview : "No disponible"}</Text>
+          <Input value={nombreDePelicula} onChangeText={setNombreDePelicula} placeholder="Escriba el nombre de la pelicula"></Input>
           <Text>{"\n"}</Text>
           <Input value={reseña} onChangeText={setReseña} placeholder="Escriba su reseña" ></Input>
           
